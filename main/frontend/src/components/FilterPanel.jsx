@@ -19,7 +19,7 @@ export default function FilterPanel({
       <h3>Filters</h3>
       <div className="filter-group">
         <CustomDropdown
-          label="Country"
+          label="City"
           value={country}
           onChange={setCountry}
           options={countries}

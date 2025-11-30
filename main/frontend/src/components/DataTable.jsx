@@ -147,7 +147,7 @@ export default function DataTable() {
             Lebanon Places Explorer
           </h1>
           <p style={{ margin: 0, fontSize: 14, opacity: 0.95, maxWidth: 520 }}>
-            Browse {totalRecords.toLocaleString()} locations, filter by country and category, and quickly open
+            Browse locations, filter by city and category, and quickly open
             any place on the map.
           </p>
         </section>
@@ -166,7 +166,7 @@ export default function DataTable() {
           <div style={{ marginBottom: 18 }}>
             <input
               type="text"
-              placeholder="Search places, countries, categories or addresses..."
+              placeholder="Search places, cities, or categories"
               value={search}
               onChange={(e) => {
                 setPage(1);
@@ -187,20 +187,27 @@ export default function DataTable() {
 
           {/* Filters row */}
           <div style={{ display: "flex", flexWrap: "wrap", gap: 18 }}>
-            {filterColumns.map((col) => (
-              <div key={col.key} style={{ minWidth: 150, flex: "1 1 180px" }}>
-                <CustomDropdown
-                  label={col.label.toUpperCase()}
-                  value={filters[col.key] || ""}
-                  options={filterOptions[col.filterKey] || []}
-                  onChange={(val) => {
-                    setPage(1);
-                    setFilters((prev) => ({ ...prev, [col.key]: val || null }));
-                  }}
-                />
-              </div>
-            ))}
-          </div>
+  {filterColumns.map((col) => {
+
+    // If this is the country column → replace label to CITY
+    const label = col.key === "country" ? "CITY" : col.label.toUpperCase();
+
+    return (
+      <div key={col.key} style={{ minWidth: 150, flex: "1 1 180px" }}>
+        <CustomDropdown
+          label={label}
+          value={filters[col.key] || ""}
+          options={filterOptions[col.filterKey] || []}
+          onChange={(val) => {
+            setPage(1);
+            setFilters((prev) => ({ ...prev, [col.key]: val || null }));
+          }}
+        />
+      </div>
+    );
+  })}
+</div>
+
 
           {/* Clear Filters Button */}
           {Object.values(filters).some(v => v) && (
@@ -321,13 +328,20 @@ export default function DataTable() {
 
                         <td style={{ padding: 12 }}>
                           <button
-                            onClick={() =>
-                              setSelectedPlace({
-                                lat: r.latitude,
-                                lng: r.longitude,
-                                name: r.location,
-                              })
-                            }
+                            onClick={async () => {
+                        const resp = await fetch(
+                          `http://localhost:5000/api/places/place-url?placeid=${r.placeid}`
+                        );
+                        const data = await resp.json();
+
+                        if (data.url) {
+                          window.open(data.url, "_blank");
+                        } else {
+                          alert("Google Maps URL not found for this place.");
+                        }
+                      }}
+
+
                             style={{
                               background: "#6366f1",
                               color: "white",
