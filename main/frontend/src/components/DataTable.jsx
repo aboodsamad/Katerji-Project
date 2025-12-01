@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { placesAPI } from "../services/placesApi";
+import { userAPI } from "../services/userApi";
 import CustomDropdown from "./CustomDropdown";
 
 export default function DataTable() {
@@ -10,6 +11,13 @@ export default function DataTable() {
   const [sortConfig, setSortConfig] = useState({ key: "location", direction: "asc" });
   const [filters, setFilters] = useState({});
   const [selectedPlace, setSelectedPlace] = useState(null);
+  
+  // Rating Modal State
+  const [showRatingModal, setShowRatingModal] = useState(false);
+  const [ratingPlace, setRatingPlace] = useState(null);
+  const [selectedRating, setSelectedRating] = useState(0);
+  const [hoveredRating, setHoveredRating] = useState(0);
+  const [ratingLoading, setRatingLoading] = useState(false);
   
   // API data
   const [rows, setRows] = useState([]);
@@ -99,6 +107,54 @@ export default function DataTable() {
   const handlePrev = () => setPage((p) => Math.max(p - 1, 1));
   const handleNext = () => setPage((p) => Math.min(p + 1, totalPages));
 
+  // Rating Modal Handlers
+  const openRatingModal = (place) => {
+    setRatingPlace(place);
+    setSelectedRating(0);
+    setHoveredRating(0);
+    setShowRatingModal(true);
+  };
+
+  const closeRatingModal = () => {
+    setShowRatingModal(false);
+    setRatingPlace(null);
+    setSelectedRating(0);
+    setHoveredRating(0);
+  };
+
+  const submitRating = async () => {
+    if (!ratingPlace || selectedRating === 0) {
+      alert('Please select a rating!');
+      return;
+    }
+
+    try {
+      setRatingLoading(true);
+      const response = await userAPI.likePlace(ratingPlace.placeid, selectedRating);
+      
+      alert(response.message || 'Rating submitted successfully!');
+      
+      // Refresh the data
+      const result = await placesAPI.getPlaces({
+        page,
+        limit: rowsPerPage,
+        country: filters.country || undefined,
+        category: filters.category || undefined,
+        accommodation_available: filters.accommodation_available || undefined,
+        search: search || undefined,
+        sortBy: sortConfig.key,
+        sortOrder: sortConfig.direction
+      });
+      
+      setRows(result.data);
+      closeRatingModal();
+    } catch (error) {
+      alert(error.message || 'Failed to submit rating');
+    } finally {
+      setRatingLoading(false);
+    }
+  };
+
   // RATING STARS
   const renderStars = (rating) => {
     if (rating == null || rating === "") return "-";
@@ -114,6 +170,33 @@ export default function DataTable() {
           {val.toFixed(1)}
         </span>
       </span>
+    );
+  };
+
+  // Render Interactive Stars for Modal
+  const renderInteractiveStars = () => {
+    const displayRating = hoveredRating || selectedRating;
+    
+    return (
+      <div style={{ display: 'flex', gap: '8px', fontSize: '3rem', justifyContent: 'center' }}>
+        {[1, 2, 3, 4, 5].map((star) => (
+          <span
+            key={star}
+            onClick={() => setSelectedRating(star)}
+            onMouseEnter={() => setHoveredRating(star)}
+            onMouseLeave={() => setHoveredRating(0)}
+            style={{
+              cursor: 'pointer',
+              color: star <= displayRating ? '#fbbf24' : '#d1d5db',
+              transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+              transform: star <= displayRating ? 'scale(1.2)' : 'scale(1)',
+              display: 'inline-block'
+            }}
+          >
+            ★
+          </span>
+        ))}
+      </div>
     );
   };
 
@@ -187,27 +270,24 @@ export default function DataTable() {
 
           {/* Filters row */}
           <div style={{ display: "flex", flexWrap: "wrap", gap: 18 }}>
-  {filterColumns.map((col) => {
+            {filterColumns.map((col) => {
+              const label = col.key === "country" ? "CITY" : col.label.toUpperCase();
 
-    // If this is the country column → replace label to CITY
-    const label = col.key === "country" ? "CITY" : col.label.toUpperCase();
-
-    return (
-      <div key={col.key} style={{ minWidth: 150, flex: "1 1 180px" }}>
-        <CustomDropdown
-          label={label}
-          value={filters[col.key] || ""}
-          options={filterOptions[col.filterKey] || []}
-          onChange={(val) => {
-            setPage(1);
-            setFilters((prev) => ({ ...prev, [col.key]: val || null }));
-          }}
-        />
-      </div>
-    );
-  })}
-</div>
-
+              return (
+                <div key={col.key} style={{ minWidth: 150, flex: "1 1 180px" }}>
+                  <CustomDropdown
+                    label={label}
+                    value={filters[col.key] || ""}
+                    options={filterOptions[col.filterKey] || []}
+                    onChange={(val) => {
+                      setPage(1);
+                      setFilters((prev) => ({ ...prev, [col.key]: val || null }));
+                    }}
+                  />
+                </div>
+              );
+            })}
+          </div>
 
           {/* Clear Filters Button */}
           {Object.values(filters).some(v => v) && (
@@ -293,7 +373,7 @@ export default function DataTable() {
                           whiteSpace: "nowrap",
                         }}
                       >
-                        View
+                        Actions
                       </th>
                     </tr>
                   </thead>
@@ -327,34 +407,49 @@ export default function DataTable() {
                         ))}
 
                         <td style={{ padding: 12 }}>
-                          <button
-                            onClick={async () => {
-                        const resp = await fetch(
-                          `http://localhost:5000/api/places/place-url?placeid=${r.placeid}`
-                        );
-                        const data = await resp.json();
+                          <div style={{ display: 'flex', gap: '8px' }}>
+                            <button
+                              onClick={async () => {
+                                const resp = await fetch(
+                                  `http://localhost:5000/api/places/place-url?placeid=${r.placeid}`
+                                );
+                                const data = await resp.json();
 
-                        if (data.url) {
-                          window.open(data.url, "_blank");
-                        } else {
-                          alert("Google Maps URL not found for this place.");
-                        }
-                      }}
-
-
-                            style={{
-                              background: "#6366f1",
-                              color: "white",
-                              padding: "8px 16px",
-                              borderRadius: 999,
-                              fontSize: 13,
-                              border: "none",
-                              cursor: "pointer",
-                              fontWeight: 500,
-                            }}
-                          >
-                            View
-                          </button>
+                                if (data.url) {
+                                  window.open(data.url, "_blank");
+                                } else {
+                                  alert("Google Maps URL not found for this place.");
+                                }
+                              }}
+                              style={{
+                                background: "#6366f1",
+                                color: "white",
+                                padding: "8px 16px",
+                                borderRadius: 999,
+                                fontSize: 13,
+                                border: "none",
+                                cursor: "pointer",
+                                fontWeight: 500,
+                              }}
+                            >
+                              View
+                            </button>
+                            <button
+                              onClick={() => openRatingModal(r)}
+                              style={{
+                                background: "linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)",
+                                color: "white",
+                                padding: "8px 16px",
+                                borderRadius: 999,
+                                fontSize: 13,
+                                border: "none",
+                                cursor: "pointer",
+                                fontWeight: 500,
+                              }}
+                            >
+                              ⭐ Rate
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -495,6 +590,122 @@ export default function DataTable() {
           </div>
         </div>
       )}
+
+      {/* RATING MODAL */}
+      {showRatingModal && ratingPlace && (
+        <div
+          onClick={closeRatingModal}
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(15,23,42,0.6)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 10000,
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              width: "90%",
+              maxWidth: "500px",
+              background: "white",
+              borderRadius: 24,
+              padding: "2.5rem",
+              boxShadow: "0 20px 45px rgba(15,23,42,0.6)",
+              animation: "slideIn 0.3s ease"
+            }}
+          >
+            <h2 style={{ 
+              marginBottom: '0.5rem', 
+              color: "#1e293b",
+              fontSize: '1.75rem',
+              textAlign: 'center',
+              fontWeight: 800
+            }}>
+              ⭐ Rate This Place
+            </h2>
+            
+            <p style={{
+              textAlign: 'center',
+              color: '#64748b',
+              fontSize: '1.125rem',
+              marginBottom: '2rem',
+              fontWeight: 600
+            }}>
+              {ratingPlace.location}
+            </p>
+
+            <div style={{ marginBottom: '2rem' }}>
+              {renderInteractiveStars()}
+              {selectedRating > 0 && (
+                <p style={{
+                  textAlign: 'center',
+                  marginTop: '1rem',
+                  color: '#fbbf24',
+                  fontSize: '1.25rem',
+                  fontWeight: 700
+                }}>
+                  {selectedRating} {selectedRating === 1 ? 'Star' : 'Stars'}
+                </p>
+              )}
+            </div>
+
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              <button
+                onClick={submitRating}
+                disabled={ratingLoading || selectedRating === 0}
+                style={{
+                  flex: 1,
+                  padding: "14px 24px",
+                  background: selectedRating === 0 ? '#cbd5e1' : 'linear-gradient(135deg, #4f46e5, #9333ea)',
+                  color: "white",
+                  border: "none",
+                  borderRadius: 999,
+                  cursor: selectedRating === 0 ? 'not-allowed' : 'pointer',
+                  fontWeight: 700,
+                  fontSize: '1rem',
+                }}
+              >
+                {ratingLoading ? 'Submitting...' : 'Submit Rating'}
+              </button>
+              <button
+                onClick={closeRatingModal}
+                disabled={ratingLoading}
+                style={{
+                  flex: 1,
+                  padding: "14px 24px",
+                  background: "#f1f5f9",
+                  color: "#64748b",
+                  border: "none",
+                  borderRadius: 999,
+                  cursor: ratingLoading ? 'not-allowed' : 'pointer',
+                  fontWeight: 700,
+                  fontSize: '1rem',
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <style>
+        {`
+          @keyframes slideIn {
+            from {
+              opacity: 0;
+              transform: translateY(-20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+        `}
+      </style>
     </div>
   );
 }

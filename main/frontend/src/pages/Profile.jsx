@@ -28,18 +28,26 @@ export default function Profile() {
   }, []);
 
   // Fetch logs when logs tab is active
-  useEffect(() => {
-    if (activeTab === 'activity') {
-      fetchUserLogs(1);
-    }
-  }, [activeTab]);
+  // REPLACE THIS:
+useEffect(() => {
+  if (activeTab === 'activity') {
+    fetchUserLogs(1);
+  }
+}, [activeTab]);
 
-  // Fetch liked places when favorites tab is active
-  useEffect(() => {
-    if (activeTab === 'favorites') {
-      fetchLikedPlaces();
-    }
-  }, [activeTab]);
+useEffect(() => {
+  if (activeTab === 'favorites') {
+    fetchLikedPlaces();
+  }
+}, [activeTab]);
+
+// WITH THIS:
+useEffect(() => {
+  fetchUserData();
+  fetchUserLogs(1);      // ← Fetch on mount!
+  fetchLikedPlaces();    // ← Fetch on mount!
+}, []);
+
 
   const fetchUserData = async () => {
     try {
@@ -113,7 +121,7 @@ export default function Profile() {
       case 'USER_LOGIN': return '🔐';
       case 'USER_LOGOUT': return '👋';
       case 'PROFILE_UPDATE': return '📝';
-      case 'PLACE_LIKED': return '❤️';
+      case 'PLACE_LIKED': return '⭐';
       case 'PLACE_UNLIKED': return '💔';
       default: return '📌';
     }
@@ -200,7 +208,7 @@ export default function Profile() {
             className={`tab-modern ${activeTab === 'favorites' ? 'active' : ''}`}
             onClick={() => setActiveTab('favorites')}
           >
-            Favorites
+            Rated Places
           </button>
         </div>
 
@@ -299,7 +307,7 @@ export default function Profile() {
                   </div>
                 </div>
                 <div className="stat-card">
-                  <div className="stat-icon">❤️</div>
+                  <div className="stat-icon">⭐</div>
                   <div className="stat-info">
                     <h3>{likedPlaces.length}</h3>
                     <p>Favorites</p>
@@ -359,7 +367,7 @@ export default function Profile() {
             <div className="favorites-section">
               {likedPlaces.length === 0 ? (
                 <div className="empty-state-modern">
-                  <div className="empty-icon">❤️</div>
+                  <div className="empty-icon">⭐</div>
                   <h3>No favorites yet</h3>
                   <p>Start exploring and save your favorite places</p>
                   <button 
@@ -373,12 +381,6 @@ export default function Profile() {
                 <div className="places-grid">
                   {likedPlaces.map((place) => (
                     <div key={place.id} className="place-card-modern">
-                      <div className="place-image-modern">
-                        <img 
-                          src={place.image_url || 'https://via.placeholder.com/400x250'} 
-                          alt={place.name}
-                        />
-                      </div>
                       <div className="place-info-modern">
                         <h3>{place.name}</h3>
                         <p className="place-location">📍 {place.address}</p>
