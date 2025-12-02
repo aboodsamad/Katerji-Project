@@ -64,6 +64,7 @@ export default function App() {
               <>
                 <Header />
                 <Profile />
+                <Chatbot placesData={data} />
                 <Footer />
               </>
             </ProtectedRoute>

@@ -1,8 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import '../styles/Chatbot.css';
 
-const GEMINI_API_KEY = "AIzaSyBvB5ZFG9rwu3QvxH2IVs9NHMN83X9DZ_A"; // Replace with your Gemini API key
-
 export default function Chatbot({ placesData }) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
@@ -41,41 +39,50 @@ export default function Chatbot({ placesData }) {
           ).join('\n')}`
         : '';
 
-      const systemPrompt = `You are a helpful Lebanon tourism assistant. Help users discover places to visit, eat, and stay in Lebanon. Be friendly, concise, and informative. If asked about specific places, recommend from the available data.${placesContext}`;
+      // Get authentication token from localStorage
+      const token = localStorage.getItem('token');
 
-      // Call Gemini API
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            contents: [{
-              parts: [{
-                text: `${systemPrompt}\n\nUser question: ${userMessage}`
-              }]
-            }]
-          })
-        }
-      );
+      if (!token) {
+        throw new Error('Please log in to use the chatbot');
+      }
+
+      // Call YOUR BACKEND with authentication
+      const response = await fetch('http://localhost:5000/api/gemini/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // 🔥 Add auth token
+        },
+        body: JSON.stringify({
+          message: userMessage,
+          placesContext: placesContext
+        })
+      });
 
       if (!response.ok) {
-        throw new Error('API request failed');
+        if (response.status === 401) {
+          throw new Error('Session expired. Please log in again.');
+        }
+        throw new Error('Backend request failed');
       }
 
       const data = await response.json();
-      const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || 
-        "Sorry, I couldn't generate a response. Please try again!";
+      
+      if (!data.success) {
+        throw new Error(data.error || 'Failed to get response');
+      }
 
       // Add AI response
-      setMessages(prev => [...prev, { role: 'assistant', content: aiResponse }]);
+      setMessages(prev => [...prev, { 
+        role: 'assistant', 
+        content: data.response 
+      }]);
+
     } catch (error) {
       console.error('Chatbot error:', error);
       setMessages(prev => [...prev, { 
         role: 'assistant', 
-        content: '❌ Sorry, I encountered an error. Please check your API key and try again!' 
+        content: `❌ ${error.message || 'Sorry, I encountered an error. Please make sure you\'re logged in and the backend is running!'}` 
       }]);
     } finally {
       setIsLoading(false);

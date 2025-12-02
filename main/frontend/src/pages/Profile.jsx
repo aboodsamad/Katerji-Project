@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { userAPI } from '../services/userApi';
 import { getUser, clearAuth } from '../config/auth';
 import '../styles/Profile.css';
+import AIChatHistory from '../components/AIChatHistory';
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -25,29 +26,9 @@ export default function Profile() {
   // Fetch user data on mount
   useEffect(() => {
     fetchUserData();
-  }, []);
-
-  // Fetch logs when logs tab is active
-  // REPLACE THIS:
-useEffect(() => {
-  if (activeTab === 'activity') {
     fetchUserLogs(1);
-  }
-}, [activeTab]);
-
-useEffect(() => {
-  if (activeTab === 'favorites') {
     fetchLikedPlaces();
-  }
-}, [activeTab]);
-
-// WITH THIS:
-useEffect(() => {
-  fetchUserData();
-  fetchUserLogs(1);      // ← Fetch on mount!
-  fetchLikedPlaces();    // ← Fetch on mount!
-}, []);
-
+  }, []);
 
   const fetchUserData = async () => {
     try {
@@ -123,6 +104,7 @@ useEffect(() => {
       case 'PROFILE_UPDATE': return '📝';
       case 'PLACE_LIKED': return '⭐';
       case 'PLACE_UNLIKED': return '💔';
+      case 'AI_CHAT': return '🤖';
       default: return '📌';
     }
   };
@@ -135,6 +117,7 @@ useEffect(() => {
       case 'PROFILE_UPDATE': return '#8b5cf6';
       case 'PLACE_LIKED': return '#ec4899';
       case 'PLACE_UNLIKED': return '#6b7280';
+      case 'AI_CHAT': return '#06b6d4';
       default: return '#6b7280';
     }
   };
@@ -209,6 +192,12 @@ useEffect(() => {
             onClick={() => setActiveTab('favorites')}
           >
             Rated Places
+          </button>
+          <button
+            className={`tab-modern ${activeTab === 'ai-chats' ? 'active' : ''}`}
+            onClick={() => setActiveTab('ai-chats')}
+          >
+            🤖 AI Chat History
           </button>
         </div>
 
@@ -395,6 +384,12 @@ useEffect(() => {
               )}
             </div>
           )}
+
+          {/* AI Chat History Tab */}
+          {activeTab === 'ai-chats' && (
+            <AIChatHistory />
+          )}
+
         </div>
       </div>
     </div>

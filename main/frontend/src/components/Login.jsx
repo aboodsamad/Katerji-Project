@@ -118,9 +118,7 @@ export default function Login() {
                   <input type="checkbox" />
                   <span>Remember me</span>
                 </label>
-                <Link to="/forgot-password" className="forgot-link">
-                  Forgot password?
-                </Link>
+               
               </div>
 
               <button type="submit" className="auth-button" disabled={isLoading}>

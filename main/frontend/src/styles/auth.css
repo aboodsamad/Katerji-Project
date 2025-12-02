@@ -148,6 +148,7 @@
   position: relative;
   display: flex;
   align-items: center;
+  color: black;
 }
 
 .input-icon {
@@ -166,6 +167,7 @@
   font-family: inherit;
   transition: all 0.3s ease;
   background: white ;
+  color: black;
 }
 
 .input-wrapper input:focus {

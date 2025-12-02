@@ -36,7 +36,7 @@ export default function Header() {
       <nav className="nav-links">
         {!token ? (
           <>
-            <Link to="/login"><Button className="btn btn-success">Log In</Button></Link>
+            <Link to="/login"><button className="btn btn-success">Log In</button></Link>
           </>
         ) : (
           <>
