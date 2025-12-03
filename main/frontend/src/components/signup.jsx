@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import API_URL from '../config/api';
 import '../styles/auth.css';
 
 export default function Signup() {
@@ -50,7 +51,7 @@ const handleSubmit = async (e) => {
   console.log('🚀 Sending signup request:', payload);
 
   try {
-    const response = await fetch('http://localhost:5000/auth/signup', {
+    const response = await fetch(`${API_URL}/auth/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
