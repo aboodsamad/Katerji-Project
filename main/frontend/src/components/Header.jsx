@@ -18,7 +18,7 @@ export default function Header() {
   const navLinks = [
     { path: "/", label: "Home", auth: false },
     { path: "/dashboard", label: "Dashboard", auth: true },
-    { path: "/Datatable", label: "Datatable", auth: true },
+    { path: "/data-table", label: "places", auth: true },
     { path: "/profile", label: "Profile", auth: true },
   ];
 
