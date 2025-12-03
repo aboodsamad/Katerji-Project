@@ -47,7 +47,7 @@ export default function Chatbot({ placesData }) {
       }
 
       // Call YOUR BACKEND with authentication
-      const response = await fetch('http://localhost:5000/api/gemini/chat', {
+      const response = await fetch('https://travel-mate-backend-jbxi.onrender.com/api/gemini/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

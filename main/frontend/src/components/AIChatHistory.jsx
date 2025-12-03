@@ -18,7 +18,7 @@ export default function AIChatHistory() {
       setLoading(true);
       const token = localStorage.getItem('token');
       
-      const response = await fetch(`http://localhost:5000/api/gemini/history?page=${page}&limit=10`, {
+      const response = await fetch(`https://travel-mate-backend-jbxi.onrender.com/api/gemini/history?page=${page}&limit=10`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -48,7 +48,7 @@ export default function AIChatHistory() {
     try {
       const token = localStorage.getItem('token');
       
-      const response = await fetch(`http://localhost:5000/api/gemini/history/${chatId}`, {
+      const response = await fetch(`https://travel-mate-backend-jbxi.onrender.com/api/gemini/history/${chatId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

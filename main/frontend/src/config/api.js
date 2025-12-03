@@ -1,2 +1,2 @@
-const API_URL = import.meta.env.VITE_API_URL || 'https://travelmate-backend.onrender.com';
+const API_URL = "https://travel-mate-backend-jbxi.onrender.com";
 export default API_URL;

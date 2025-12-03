@@ -411,7 +411,7 @@ export default function DataTable() {
                             <button
                               onClick={async () => {
                                 const resp = await fetch(
-                                  `http://localhost:5000/api/places/place-url?placeid=${r.placeid}`
+                                  `https://travel-mate-backend-jbxi.onrender.comhttps://travel-mate-backend-jbxi.onrender.com/api/places/place-url?placeid=${r.placeid}`
                                 );
                                 const data = await resp.json();
 

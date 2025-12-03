@@ -11,7 +11,7 @@ export default function Header() {
 
       if (user) {
         // Send logout log to backend
-        await fetch("http://localhost:5000/auth/logout", {
+        await fetch("https://travel-mate-backend-jbxi.onrender.com/auth/logout", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userId: user.id }),

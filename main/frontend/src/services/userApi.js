@@ -1,6 +1,6 @@
-import { getAuthHeaders } from '../config/auth';
+import { getAuthHeaders } from "../config/auth";
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = "https://travel-mate-backend-jbxi.onrender.com/api";
 
 export const userAPI = {
   // Get user profile
@@ -11,7 +11,7 @@ export const userAPI = {
 
     if (!response.ok) {
       const error = await response.json();
-      throw new Error(error.message || 'Failed to fetch profile');
+      throw new Error(error.message || "Failed to fetch profile");
     }
 
     return response.json();
@@ -20,14 +20,14 @@ export const userAPI = {
   // Update user profile
   updateProfile: async (data) => {
     const response = await fetch(`${API_BASE_URL}/users/profile`, {
-      method: 'PUT',
+      method: "PUT",
       headers: getAuthHeaders(),
       body: JSON.stringify(data),
     });
 
     if (!response.ok) {
       const error = await response.json();
-      throw new Error(error.message || 'Failed to update profile');
+      throw new Error(error.message || "Failed to update profile");
     }
 
     return response.json();
@@ -42,7 +42,7 @@ export const userAPI = {
 
     if (!response.ok) {
       const error = await response.json();
-      throw new Error(error.message || 'Failed to fetch logs');
+      throw new Error(error.message || "Failed to fetch logs");
     }
 
     return response.json();
@@ -56,7 +56,7 @@ export const userAPI = {
 
     if (!response.ok) {
       const error = await response.json();
-      throw new Error(error.message || 'Failed to fetch liked places');
+      throw new Error(error.message || "Failed to fetch liked places");
     }
 
     return response.json();
@@ -65,14 +65,14 @@ export const userAPI = {
   // Like/Rate a place
   likePlace: async (placeId, rating) => {
     const response = await fetch(`${API_BASE_URL}/users/liked-places`, {
-      method: 'POST',
+      method: "POST",
       headers: getAuthHeaders(),
       body: JSON.stringify({ placeId, rating }),
     });
 
     if (!response.ok) {
       const error = await response.json();
-      throw new Error(error.message || 'Failed to rate place');
+      throw new Error(error.message || "Failed to rate place");
     }
 
     return response.json();
@@ -80,14 +80,17 @@ export const userAPI = {
 
   // Unlike a place
   unlikePlace: async (placeId) => {
-    const response = await fetch(`${API_BASE_URL}/users/liked-places/${placeId}`, {
-      method: 'DELETE',
-      headers: getAuthHeaders(),
-    });
+    const response = await fetch(
+      `${API_BASE_URL}/users/liked-places/${placeId}`,
+      {
+        method: "DELETE",
+        headers: getAuthHeaders(),
+      }
+    );
 
     if (!response.ok) {
       const error = await response.json();
-      throw new Error(error.message || 'Failed to unlike place');
+      throw new Error(error.message || "Failed to unlike place");
     }
 
     return response.json();

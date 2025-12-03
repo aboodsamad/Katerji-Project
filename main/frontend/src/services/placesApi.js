@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "https://travel-mate-backend-jbxi.onrender.com/api";
 
 export const placesAPI = {
   // Get top 10 places by visitors (for dashboard bar chart)
@@ -6,7 +6,7 @@ export const placesAPI = {
     const { country, category } = params;
     const queryParams = new URLSearchParams();
     queryParams.append("topOnly", "true"); // Flag to get top 10
-    
+
     if (country) queryParams.append("country", country);
     if (category) queryParams.append("category", category);
 
@@ -30,7 +30,7 @@ export const placesAPI = {
     const queryParams = new URLSearchParams();
     queryParams.append("page", 1);
     queryParams.append("limit", 50000); // High limit to get all records
-    
+
     if (country) queryParams.append("country", country);
     if (category) queryParams.append("category", category);
 
@@ -62,19 +62,20 @@ export const placesAPI = {
       address,
       search,
       sortBy,
-      sortOrder
+      sortOrder,
     } = params;
 
     const queryParams = new URLSearchParams();
     queryParams.append("page", page);
     queryParams.append("limit", limit);
-    
+
     if (location) queryParams.append("location", location);
     if (country) queryParams.append("country", country);
     if (category) queryParams.append("category", category);
     if (visitors) queryParams.append("visitors", visitors);
     if (rating) queryParams.append("rating", rating);
-    if (accommodation_available) queryParams.append("accommodation_available", accommodation_available);
+    if (accommodation_available)
+      queryParams.append("accommodation_available", accommodation_available);
     if (address) queryParams.append("address", address);
     if (search) queryParams.append("search", search);
     if (sortBy) queryParams.append("sortBy", sortBy);
@@ -100,7 +101,7 @@ export const placesAPI = {
   getStats: async (params = {}) => {
     const { country, category } = params;
     const queryParams = new URLSearchParams();
-    
+
     if (country) queryParams.append("country", country);
     if (category) queryParams.append("category", category);
 
@@ -108,20 +109,20 @@ export const placesAPI = {
       console.log("Fetching stats with params:", params);
       const url = `${API_BASE_URL}/places/stats?${queryParams}`;
       console.log("Stats URL:", url);
-      
+
       const response = await fetch(url);
       const data = await response.json();
-      
+
       console.log("Stats response:", data);
-      
+
       if (!response.ok) {
         throw new Error(data.message || "Failed to fetch statistics");
       }
-      
+
       return data;
     } catch (error) {
       console.error("getStats error:", error);
       throw error;
     }
-  }
+  },
 };
