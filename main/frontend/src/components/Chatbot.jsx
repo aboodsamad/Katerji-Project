@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import '../styles/Chatbot.css';
+import '../styles/chatbot.css';
 
 export default function Chatbot({ placesData }) {
   const [isOpen, setIsOpen] = useState(false);
