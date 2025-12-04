@@ -728,16 +728,34 @@ body,
   }
 }
 /* =====================================================
-   BUTTON FIXES FOR HOME PAGE - ADD TO END OF Home.css
+   BUTTON FIXES - MOBILE CONTAINED VERSION
+   Replace the button section in Home.css with this
    ===================================================== */
+
+/* Hero Buttons Container - CRITICAL FOR MOBILE */
+.hero-buttons {
+  display: flex !important;
+  gap: 15px !important;
+  justify-content: center !important;
+  flex-wrap: wrap !important;
+  margin-bottom: 60px !important;
+  animation: fadeInUp 1s ease 0.4s backwards !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 0 20px !important; /* Add padding to prevent overflow */
+  box-sizing: border-box !important;
+}
 
 /* ALL BUTTONS - Base styling */
 .btn,
 .hero-buttons a,
 .hero-buttons button,
-.cta-button {
+.cta-button,
+.cta-section a,
+.cta-section button {
   display: inline-flex !important;
   align-items: center !important;
+  justify-content: center !important;
   gap: 10px !important;
   padding: 16px 32px !important;
   font-size: 1.1rem !important;
@@ -749,6 +767,9 @@ body,
   overflow: hidden !important;
   border: none !important;
   cursor: pointer !important;
+  box-sizing: border-box !important;
+  white-space: nowrap !important;
+  min-width: 0 !important; /* Allow shrinking */
 }
 
 /* PRIMARY BUTTON - "Start Exploring" */
@@ -809,33 +830,82 @@ button.btn-secondary {
   color: #4338ca !important;
 }
 
-/* Mobile adjustments */
+/* TABLET - 768px and below */
 @media (max-width: 768px) {
-  .btn,
-  .hero-buttons a,
-  .hero-buttons button,
-  .cta-button {
-    width: 100% !important;
-    max-width: 300px !important;
-    justify-content: center !important;
-    padding: 15px 28px !important;
-    font-size: 1rem !important;
-    font-weight: 700 !important;
+  .hero-buttons {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 0 30px !important;
+    margin-bottom: 40px !important;
   }
 
-  .btn-cta {
+  .btn,
+  .hero-buttons a,
+  .hero-buttons button {
+    width: 100% !important;
+    max-width: 280px !important;
+    padding: 15px 28px !important;
+    font-size: 1rem !important;
+  }
+
+  .btn-cta,
+  .cta-section a,
+  .cta-section button {
+    width: 100% !important;
+    max-width: 280px !important;
     padding: 16px 32px !important;
+    font-size: 1rem !important;
   }
 }
 
+/* MOBILE - 480px and below */
 @media (max-width: 480px) {
+  .hero-buttons {
+    padding: 0 20px !important;
+    gap: 10px !important;
+  }
+
   .btn,
   .hero-buttons a,
-  .hero-buttons button,
-  .cta-button {
-    width: 100% !important;
-    max-width: 100% !important;
+  .hero-buttons button {
+    width: calc(100% - 40px) !important; /* Full width minus padding */
+    max-width: none !important;
     padding: 14px 24px !important;
     font-size: 0.95rem !important;
+  }
+
+  .btn-cta,
+  .cta-section a,
+  .cta-section button {
+    width: calc(100% - 40px) !important;
+    max-width: none !important;
+    padding: 15px 28px !important;
+    font-size: 0.95rem !important;
+    margin: 0 20px !important;
+  }
+}
+
+/* EXTRA SMALL - 375px and below */
+@media (max-width: 375px) {
+  .hero-buttons {
+    padding: 0 15px !important;
+  }
+
+  .btn,
+  .hero-buttons a,
+  .hero-buttons button {
+    width: calc(100% - 30px) !important;
+    padding: 12px 20px !important;
+    font-size: 0.9rem !important;
+  }
+
+  .btn-cta,
+  .cta-section a,
+  .cta-section button {
+    width: calc(100% - 30px) !important;
+    padding: 13px 24px !important;
+    font-size: 0.9rem !important;
+    margin: 0 15px !important;
   }
 }
