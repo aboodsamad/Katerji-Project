@@ -1,4 +1,4 @@
-/* Home Page Styles - Stunning Design */
+/* Home Page Styles - FIXED FOR MOBILE */
 
 .home-page {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -8,14 +8,14 @@
 /* Hero Section */
 .hero-section {
   position: relative;
-  height: 90vh;
+  min-height: 90vh;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   color: white;
-  margin-top: -70px; /* Pull up to sit under fixed header */
-  padding-top: 70px; /* Add padding to compensate */
+  margin-top: -70px;
+  padding-top: 70px;
 }
 
 .hero-bg {
@@ -71,27 +71,26 @@
   line-height: 1.2;
   margin-bottom: 20px;
   letter-spacing: -0.02em;
+  color: white;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .gradient-text {
-  background: linear-gradient(120deg, #ffd89b, #19547b);
+  background: linear-gradient(120deg, #ffd89b, #ffffff);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: shimmer 3s ease infinite;
-}
-
-@keyframes shimmer {
-  0%, 100% { filter: brightness(1); }
-  50% { filter: brightness(1.2); }
+  text-shadow: none;
+  font-weight: 900;
 }
 
 .hero-subtitle {
   font-size: clamp(1rem, 3vw, 1.5rem);
   margin-bottom: 40px;
-  opacity: 0.95;
+  color: white;
   font-weight: 400;
   animation: fadeInUp 1s ease 0.2s backwards;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
 }
 
 .hero-buttons {
@@ -133,26 +132,30 @@
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
   color: white;
-  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 10px 30px rgba(79, 70, 229, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .btn-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+  box-shadow: 0 15px 40px rgba(79, 70, 229, 0.7);
+  background: linear-gradient(135deg, #4338ca, #6d28d9);
 }
 
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
+  background: rgba(255, 255, 255, 0.95);
+  color: #4f46e5;
   backdrop-filter: blur(10px);
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid white;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: white;
   transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
 }
 
 /* Hero Stats */
@@ -169,26 +172,26 @@
 }
 
 .stat-number {
-  font-size: 2.5rem;
-  font-weight: 800;
-  background: linear-gradient(120deg, #ffd89b, #19547b);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-size: clamp(2rem, 5vw, 2.5rem);
+  font-weight: 900;
+  color: #ffd89b;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
 }
 
 .stat-label {
-  font-size: 0.9rem;
-  opacity: 0.9;
+  font-size: clamp(0.75rem, 2vw, 0.9rem);
+  color: white;
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-top: 5px;
+  font-weight: 600;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .stat-divider {
   width: 2px;
   height: 40px;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.5);
 }
 
 /* Scroll Indicator */
@@ -229,7 +232,8 @@
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 2px;
-  opacity: 0.8;
+  color: white;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 /* Container */
@@ -241,7 +245,7 @@
 
 /* Section Styles */
 section {
-  padding: 100px 0;
+  padding: 80px 0;
 }
 
 .section-header {
@@ -464,8 +468,8 @@ section {
   text-align: center;
   position: relative;
   overflow: hidden;
-  padding: 100px 0 0 0; /* Remove bottom padding */
-  margin-bottom: 0; /* Ensure no margin */
+  padding: 80px 0;
+  margin-bottom: 0;
 }
 
 .cta-section::before {
@@ -487,96 +491,39 @@ section {
 .cta-content {
   position: relative;
   z-index: 2;
-  padding: 80px 20px; /* Add internal padding */
+  padding: 40px 20px;
 }
 
 .cta-title {
   font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 800;
   margin-bottom: 20px;
+  color: white;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 .cta-subtitle {
-  font-size: 1.2rem;
-  opacity: 0.95;
+  font-size: clamp(1rem, 3vw, 1.2rem);
   margin-bottom: 40px;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
+  color: white;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .btn-cta {
   background: white;
   color: #667eea;
   font-weight: 700;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  padding: 18px 40px;
+  font-size: 1.1rem;
 }
 
 .btn-cta:hover {
   transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .hero-title {
-    font-size: 2.5rem;
-  }
-
-  .hero-subtitle {
-    font-size: 1.1rem;
-  }
-
-  .hero-buttons {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .hero-stats {
-    gap: 20px;
-  }
-
-  .stat-number {
-    font-size: 2rem;
-  }
-
-  section {
-    padding: 60px 0;
-  }
-
-  .features-grid,
-  .destinations-grid,
-  .categories-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .destination-card {
-    height: 350px;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero-stats {
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .stat-divider {
-    width: 40px;
-    height: 2px;
-  }
-
-  .btn {
-    width: 100%;
-    justify-content: center;
-  }
-}
-
-/* Smooth Animations */
-@media (prefers-reduced-motion: no-preference) {
-  html {
-    scroll-behavior: smooth;
-  }
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
 }
 
 /* Scroll to Top Button */
@@ -614,152 +561,169 @@ section {
   box-shadow: 0 10px 30px rgba(102, 126, 234, 0.6);
 }
 
-.scroll-to-top:active {
-  transform: translateY(-2px);
-}
-
-/* Home.css - ADD THESE RESPONSIVE STYLES TO YOUR EXISTING FILE */
-
-/* Add these media queries at the END of your Home.css file */
-
 /* =====================================================
-   MOBILE RESPONSIVE STYLES FOR HOME PAGE
+   MOBILE RESPONSIVE STYLES
    ===================================================== */
 
-/* Tablet adjustments */
 @media (max-width: 1024px) {
-  .home-container,
-  .hero-section {
-    padding: clamp(40px, 6vw, 60px) clamp(20px, 3vw, 40px) !important;
+  section {
+    padding: 60px 0;
   }
 }
 
-/* Mobile adjustments */
 @media (max-width: 768px) {
-  /* Hero section */
-  .hero-title,
-  .home-title,
-  h1 {
-    font-size: clamp(28px, 6vw, 40px) !important;
-    line-height: 1.2 !important;
+  /* Hero adjustments */
+  .hero-section {
+    min-height: 80vh;
+    padding-top: 80px;
   }
 
-  .hero-subtitle,
-  .home-subtitle,
-  .hero p {
-    font-size: clamp(16px, 3vw, 18px) !important;
+  .hero-title {
+    font-size: clamp(2rem, 8vw, 3rem);
   }
 
-  /* Buttons section */
-  .hero-buttons,
-  .cta-buttons,
-  .button-group {
-    flex-direction: column !important;
-    gap: 12px !important;
-    align-items: stretch !important;
+  .hero-subtitle {
+    font-size: clamp(0.95rem, 3vw, 1.1rem);
+    margin-bottom: 30px;
   }
 
-  .hero-buttons a,
-  .hero-buttons button,
-  .cta-button {
-    width: 100% !important;
-    max-width: 300px !important;
-    margin: 0 auto !important;
-    justify-content: center !important;
+  /* Buttons - stack vertically */
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 40px;
   }
 
-  /* Stats grid */
-  .stats-grid,
-  .home-stats {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
-    gap: 16px !important;
+  .btn {
+    width: 100%;
+    max-width: 280px;
+    justify-content: center;
+    padding: 14px 28px;
+    font-size: 1rem;
   }
 
-  /* Category cards */
-  .categories-grid,
-  .category-grid {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
-    gap: 16px !important;
+  /* Stats - better mobile layout */
+  .hero-stats {
+    gap: 25px;
+    flex-wrap: wrap;
   }
 
-  /* Card adjustments */
-  .stat-card,
-  .category-card {
-    padding: clamp(20px, 4vw, 28px) clamp(16px, 3vw, 20px) !important;
+  .stat-number {
+    font-size: clamp(1.75rem, 6vw, 2rem);
   }
 
-  /* Icons */
-  .icon,
-  .stat-icon,
-  .category-icon {
-    font-size: clamp(40px, 8vw, 56px) !important;
+  .stat-label {
+    font-size: clamp(0.7rem, 2vw, 0.8rem);
   }
 
-  /* Text sizes */
-  h2 {
-    font-size: clamp(24px, 5vw, 32px) !important;
+  /* Sections */
+  section {
+    padding: 50px 0;
   }
 
-  h3 {
-    font-size: clamp(18px, 3vw, 22px) !important;
+  /* Grids */
+  .features-grid,
+  .destinations-grid,
+  .categories-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .destination-card {
+    height: 350px;
+  }
+
+  /* Category cards - 2 columns on mobile */
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Scroll indicator */
+  .scroll-indicator {
+    display: none;
+  }
+
+  /* CTA section */
+  .cta-section {
+    padding: 60px 0;
+  }
+
+  .cta-content {
+    padding: 30px 20px;
   }
 }
 
-/* Extra small screens */
 @media (max-width: 480px) {
-  .home-container {
-    padding: 20px 12px !important;
-  }
-
-  /* Hero */
+  /* Extra compact on small phones */
   .hero-section {
-    padding: 40px 20px !important;
+    min-height: 70vh;
   }
 
-  .hero-title,
-  h1 {
-    font-size: 28px !important;
+  .hero-title {
+    font-size: 2rem;
+    margin-bottom: 15px;
   }
 
-  /* Single column layouts */
-  .stats-grid,
+  .hero-subtitle {
+    font-size: 0.95rem;
+    margin-bottom: 25px;
+  }
+
+  /* Stats - stack vertically */
+  .hero-stats {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .stat-divider {
+    width: 60px;
+    height: 2px;
+  }
+
+  /* Single column for categories */
   .categories-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: 1fr;
   }
 
   /* Buttons */
-  button,
   .btn {
-    padding: 12px 24px !important;
-    font-size: 14px !important;
+    width: 100%;
+    max-width: 100%;
+    padding: 14px 24px;
+    font-size: 0.95rem;
   }
 
-  /* Footer */
-  .footer {
-    padding: 24px 20px !important;
-    font-size: 14px !important;
+  /* Card padding */
+  .feature-card,
+  .category-card {
+    padding: 30px 20px;
+  }
+
+  /* Section spacing */
+  section {
+    padding: 40px 0;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
   }
 }
 
 /* Prevent horizontal scroll */
-.home-container,
-.home-wrapper,
-body {
-  max-width: 100% !important;
-  overflow-x: hidden !important;
+body,
+.home-page {
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
-/* Responsive images */
-img {
-  max-width: 100% !important;
-  height: auto !important;
-}
-
-/* CTA section */
-@media (max-width: 768px) {
-  .cta-section,
-  .cta-container {
-    padding: clamp(32px, 5vw, 48px) clamp(20px, 3vw, 32px) !important;
-    border-radius: clamp(16px, 3vw, 24px) !important;
+/* Smooth Animations */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
   }
 }
