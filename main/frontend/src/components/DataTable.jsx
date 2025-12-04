@@ -255,15 +255,16 @@ export default function DataTable() {
                 setPage(1);
                 setSearch(e.target.value);
               }}
+              className="search-input"
               style={{
                 padding: "12px 16px",
                 borderRadius: 999,
                 border: "1px solid #cbd5e1",
                 boxShadow: "0 2px 6px rgba(15,23,42,0.06)",
                 width: "100%",
-                maxWidth: "500px",
                 outline: "none",
                 fontSize: 14,
+                boxSizing: "border-box",
               }}
             />
           </div>
@@ -410,9 +411,9 @@ export default function DataTable() {
                           <div style={{ display: 'flex', gap: '8px' }}>
                             <button
                               onClick={async () => {
-const resp = await fetch(
-  `https://travel-mate-backend-jbxi.onrender.com/api/places/place-url?placeid=${r.placeid}`
-);
+                                const resp = await fetch(
+                                  `https://travel-mate-backend-jbxi.onrender.com/api/places/place-url?placeid=${r.placeid}`
+                                );
                                 const data = await resp.json();
 
                                 if (data.url) {
@@ -702,6 +703,25 @@ const resp = await fetch(
             to {
               opacity: 1;
               transform: translateY(0);
+            }
+          }
+          
+          .search-input {
+            max-width: 500px;
+          }
+          
+          @media (max-width: 768px) {
+            .search-input {
+              max-width: 100% !important;
+              font-size: 16px !important;
+              padding: 14px 16px !important;
+            }
+          }
+          
+          @media (max-width: 480px) {
+            .search-input {
+              font-size: 16px !important;
+              padding: 16px !important;
             }
           }
         `}
