@@ -153,8 +153,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-
-
       </section>
 
       {/* Features Section */}
@@ -250,6 +248,27 @@ export default function Home() {
         </div>
       </section>
 
+      {/* QR Code Section */}
+      <section className="qr-section">
+        <div className="container">
+          <div className="qr-content">
+            <div className="qr-text">
+              <h2 className="qr-title">📱 Scan & Visit</h2>
+              <p className="qr-description">
+                Scan this QR code with your phone to quickly access TravelMate
+              </p>
+            </div>
+            <div className="qr-code-wrapper">
+              <img 
+                src="/travel-mate-qrcode.png" 
+                alt="TravelMate QR Code" 
+                className="qr-code-image"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Scroll to Top Button */}
       <button 
         className={`scroll-to-top ${showScrollTop ? 'visible' : ''}`}
@@ -258,6 +277,125 @@ export default function Home() {
       >
         ↑
       </button>
+
+      <style jsx>{`
+        .qr-section {
+          padding: 80px 20px;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .qr-section::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                      radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
+          pointer-events: none;
+        }
+
+        .qr-content {
+          max-width: 800px;
+          margin: 0 auto;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 60px;
+          position: relative;
+          z-index: 1;
+        }
+
+        .qr-text {
+          flex: 1;
+          color: white;
+        }
+
+        .qr-title {
+          font-size: 2.5rem;
+          font-weight: 800;
+          margin-bottom: 1rem;
+          color: white;
+        }
+
+        .qr-description {
+          font-size: 1.125rem;
+          line-height: 1.6;
+          opacity: 0.95;
+          color: white;
+        }
+
+        .qr-code-wrapper {
+          background: white;
+          padding: 24px;
+          border-radius: 24px;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+          transform: rotate(-2deg);
+          transition: transform 0.3s ease;
+        }
+
+        .qr-code-wrapper:hover {
+          transform: rotate(0deg) scale(1.05);
+        }
+
+        .qr-code-image {
+          display: block;
+          width: 200px;
+          height: 200px;
+          border-radius: 12px;
+        }
+
+        @media (max-width: 768px) {
+          .qr-section {
+            padding: 60px 20px;
+          }
+
+          .qr-content {
+            flex-direction: column;
+            text-align: center;
+            gap: 40px;
+          }
+
+          .qr-title {
+            font-size: 2rem;
+          }
+
+          .qr-description {
+            font-size: 1rem;
+          }
+
+          .qr-code-wrapper {
+            transform: rotate(0deg);
+          }
+
+          .qr-code-image {
+            width: 180px;
+            height: 180px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .qr-section {
+            padding: 50px 16px;
+          }
+
+          .qr-title {
+            font-size: 1.75rem;
+          }
+
+          .qr-code-wrapper {
+            padding: 20px;
+          }
+
+          .qr-code-image {
+            width: 160px;
+            height: 160px;
+          }
+        }
+      `}</style>
     </div>
   );
 }
